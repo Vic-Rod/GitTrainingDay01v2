@@ -33,3 +33,7 @@ jobs:
         run: |
           echo "::warning file=app.js,line=10::This is a code carning."
           echo "::error file=app.js,line=15,col=5::Critical syntax error found!"
+
+      - name: Generate Value
+        id: generator
+        run: echo "build_id=12345" >> $GITHUB_OUTPUT
