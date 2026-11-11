@@ -1,1 +1,28 @@
+name: 2-Test Composite Action
+on:
+  push:
+    branches: [ main ]
+    paths: [ hello-world-docker-action/** ]
+  workflow_dispatch:
 
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      #step 2 
+      - name: call random generator action
+        id: custom_rng
+        uses: ./.github/actions/random-generator
+        with:
+          user-name: 'Vic'
+
+      - name: Output time set in the container
+        run: echo "The time was ${{ steps.hello-action.outputs.time }} when the action said hello"
+
+      #step 3
+      - name: Use the returned random number
+        run: |
+          echo "the composite action successfully returned the number: ${{ steps.custom_rng.outputs.generated-number }}"
